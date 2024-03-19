@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Loan Balance Transfer Calculator</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .calculator {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="number"],
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator">
+      <h2>Home Loan Balance Transfer Calculator</h2>
+
+      <div>
+        <label for="outstandingPrincipal">Outstanding Principal:</label>
+        <input
+          type="number"
+          id="outstandingPrincipal"
+          placeholder="Outstanding Principal"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="yearlyInterestRate">Yearly Interest Rate (%):</label>
+        <input
+          type="number"
+          id="yearlyInterestRate"
+          placeholder="Yearly Interest Rate"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="totalTenure">Total Tenure (in years):</label>
+        <input
+          type="number"
+          id="totalTenure"
+          placeholder="Total Tenure"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="newInterestRate">New Interest Rate (%):</label>
+        <input
+          type="number"
+          id="newInterestRate"
+          placeholder="New Interest Rate"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="newTenure">New Tenure (in years):</label>
+        <input type="number" id="newTenure" placeholder="New Tenure" required />
+      </div>
+
+      <button onclick="calculateNewInstallment()">
+        Calculate New Installment
+      </button>
+
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function calculateNewInstallment() {
+        var outstandingPrincipal = parseFloat(
+          document.getElementById("outstandingPrincipal").value
+        );
+        var yearlyInterestRate = parseFloat(
+          document.getElementById("yearlyInterestRate").value
+        );
+        var totalTenure = parseInt(
+          document.getElementById("totalTenure").value
+        );
+        var newInterestRate = parseFloat(
+          document.getElementById("newInterestRate").value
+        );
+        var newTenure = parseInt(document.getElementById("newTenure").value);
+
+        var monthlyInterestRate = yearlyInterestRate / 12 / 100;
+        var newMonthlyInterestRate = newInterestRate / 12 / 100;
+        var totalMonthsRemaining = totalTenure * 12;
+        var newTotalMonths = newTenure * 12;
+
+        var oldMonthlyInstallment =
+          (outstandingPrincipal * monthlyInterestRate) /
+          (1 - Math.pow(1 + monthlyInterestRate, -totalMonthsRemaining));
+        var newMonthlyInstallment =
+          (outstandingPrincipal * newMonthlyInterestRate) /
+          (1 - Math.pow(1 + newMonthlyInterestRate, -newTotalMonths));
+
+        var resultElement = document.getElementById("result");
+        resultElement.innerHTML =
+          "Old Monthly Installment: $" +
+          oldMonthlyInstallment.toFixed(2) +
+          "<br>" +
+          "New Monthly Installment: $" +
+          newMonthlyInstallment.toFixed(2);
+      }
+    </script>
+  </body>
+</html>
